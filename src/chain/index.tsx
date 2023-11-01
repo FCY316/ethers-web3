@@ -1,6 +1,6 @@
 //  白名单
 export const chainIDArr = [12306];
-export const chainParams:any = {
+export const chainParams: any = {
     12306: {
         chainId: 12306,
         chainName: "Fibochain", // 自定义链的名称
@@ -11,5 +11,16 @@ export const chainParams:any = {
         },
         rpcUrls: ["https://node1.fibo-rpc.asia"],
         blockExplorerUrls: ['https://scan.fibochain.org/'],
+    },
+    56: {
+        chainId: 56,
+        chainName: "Binance Smart Chain Mainnet", // 自定义链的名称
+        nativeCurrency: {
+            name: "Binance Chain Native Token",
+            symbol: "BSC",
+            decimals: 18,
+        },
+        rpcUrls: ["https://bsc-dataseed1.binance.org"],
+        blockExplorerUrls: ['https://bscscan.com/'],
     }
 };
