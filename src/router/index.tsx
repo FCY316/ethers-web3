@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import LoadingPage from "./LoadingPage";
-import { useRoutes } from "react-router-dom";
+import { RouterGuard } from "./RouteGuard";
 import Layout from "@/Layout";
 
 const Home = lazy(
@@ -27,7 +27,7 @@ const routeConfig = [
 ];
 
 const AppRouter = () => {
-  const element = useRoutes(routeConfig);
+  const element = RouterGuard(routeConfig);
   return <Suspense fallback={<LoadingPage />}>{element}</Suspense>;
 };
 export default AppRouter;
