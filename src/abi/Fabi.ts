@@ -5,15 +5,15 @@ type objKeyObjectType = {
 };
 const erc20 = require("@/abi/erc20.json");
 
-let FBcontract: objKeyObjectType = {
+let FContact: objKeyObjectType = {
   // 合约
   erc20: { abi: erc20, address: "" },
 };
 if (process.env.NODE_ENV === "development") {
   //开发环境
-  FBcontract.erc20.address = "";
+  FContact.erc20.address = "";
 } else {
   //生产环境
-  FBcontract.erc20.address = "";
+  FContact.erc20.address = "";
 }
-export default FBcontract;
+export default FContact;
