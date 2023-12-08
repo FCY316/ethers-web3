@@ -32,9 +32,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "NODE_ENV=development craco build"
+    "start:dev": "dotenv -e config/.env.development craco start",
+    "start:test": "dotenv -e config/.env.test craco start",
+    "start:pro": "dotenv -e config/.env.production craco start",
+    "build:dev": "dotenv -e config/.env.development craco build",
+    "build:test": "dotenv -e config/.env.test craco build",
+    "build:pro": "dotenv -e config/.env.production craco build"
   },
   "eslintConfig": {
     "extends": [
@@ -55,6 +58,7 @@
     ]
   },
   "devDependencies": {
-    "@types/nprogress": "^0.2.3"
+    "@types/nprogress": "^0.2.3",
+    "dotenv-cli": "^7.3.0"
   }
 }

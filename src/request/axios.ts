@@ -4,14 +4,7 @@ import axios, {
   AxiosResponse,
 } from "axios";
 import { message } from "antd";
-let href = "";
-if (process.env.NODE_ENV === "development") {
-  //开发环境
-  href = "http://192.168.110.7:8080/api/v1";
-} else {
-  //生产环境
-  href = "";
-}
+const href = process.env.BASE_URL;
 const $axios = axios.create({
   baseURL: href, // 设置你的API基础URL
   timeout: 5000, // 设置请求超时时间
