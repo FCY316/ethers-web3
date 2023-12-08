@@ -1,14 +1,8 @@
-import React, { lazy, Suspense } from "react";
-import LoadingPage from "./LoadingPage";
+import { Suspense } from "react";
 import { RouterGuard } from "./RouteGuard";
 import Layout from "@/Layout";
-
-const Home = lazy(
-  async () => await import(/* webpackChunkName: "home" */ "@/pages/home")
-);
-const My = lazy(
-  async () => await import(/* webpackChunkName: "home" */ "@/pages/my")
-);
+import Home from '@/pages/home'
+import My from '@/pages/my'
 const routeConfig = [
   {
     path: "/",
@@ -28,6 +22,6 @@ const routeConfig = [
 
 const AppRouter = () => {
   const element = RouterGuard(routeConfig);
-  return <Suspense fallback={<LoadingPage />}>{element}</Suspense>;
+  return <Suspense > {element}</Suspense >;
 };
 export default AppRouter;
