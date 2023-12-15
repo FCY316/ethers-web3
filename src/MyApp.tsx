@@ -1,4 +1,3 @@
-import React from 'react';
 import AppRouter from '@/router'
 import './MyApp.scss';
 import useListenerNetWork from '@/web3Hooks/useListenerNetWork';

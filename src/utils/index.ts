@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { ethers, isAddress } from "ethers";
 import { Buffer } from "buffer";
 import blockies from "ethereum-blockies";
 import { message } from "antd";
@@ -101,12 +101,18 @@ export const addressConvert = (address: string) => {
     return address;
   }
 };
-// 判断是不是fb地址
-export const validateAddress = (addr: any) => {
+// 判断是不是fb 0x地址
+export const validateAddress = (addr: string) => {
   try {
-    const decodeAddress = fibo.bech32.decode(addr);
-    if (decodeAddress.prefix === "fb") {
-      return true;
+    // 判断前两位是不是fb地址，不是的话直接返回false
+    if (addr.startsWith("fb")) {
+      // 是的话转化为0x地址去检查
+      const address0x = addressConvert(addr);
+      const flg = isAddress(address0x);
+      return flg;
+    } else if (addr.startsWith("0x")) {
+      const flg = isAddress(addr);
+      return flg;
     }
     return false;
   } catch (err) {
