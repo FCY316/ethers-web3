@@ -1,16 +1,14 @@
-import { ethers, isAddress } from "ethers";
-import { Buffer } from "buffer";
+import { ethers } from "ethers";
 import blockies from "ethereum-blockies";
 import { message } from "antd";
-var fibo = require("bech32");
 
 // 将BigNumber 转换为普通数(数字类型)
-export const formatUnits = (value: any, decimals: number = 18) => {
+export const formatUnits = (value: any, decimals: number | string = 18) => {
   const result = ethers.formatUnits(value, decimals);
   return Number(result);
 };
 // 将普通数转换为BigNumber
-export const parseUnits = (value: string, decimals: number = 18) => {
+export const parseUnits = (value: string, decimals: number | string = 18) => {
   const result = ethers.parseUnits(value, decimals);
   return result;
 };
@@ -49,76 +47,24 @@ export function formatTimeToStr(
 export const formatNumber = (value: string | number): string => {
   // 将输入值转换为字符串
   const stringValue = String(value);
-
   // 将字符串转换为数字，如果无法解析则返回原始字符串
   const numericAmount = parseFloat(stringValue);
-
   // 检查输入是否为有效的数字
   if (isNaN(numericAmount)) {
     return stringValue; // 如果无法解析为有效数字，则返回原始输入
   }
   // 使用 toFixed 方法将小数位数限制为两位，然后转换为字符串
-  const formattedAmount = numericAmount.toFixed(2).toString();
-
+  const formattedAmount = truncateDecimals(Number(value), 2) + "";
   // 使用正则表达式去除末尾多余的零和可能的小数点
   const cleanedAmount = formattedAmount.replace(/(\.0*|0+)$/, "");
-
   // 检查小数位数是否超过两位，如果超过，则添加省略号
   const decimalCount = ((numericAmount + "").split(".")[1] || "").length;
   if (decimalCount > 2) {
     return cleanedAmount + "..";
   }
-
   return cleanedAmount;
 };
-// 地址转换
-export const addressConvert = (address: string) => {
-  try {
-    if (address.substring(0, 2) === "0x") {
-      // 如果是0x开头
-      // 0x转fb
-      let hexAddr = address;
-      hexAddr = hexAddr.slice(0, 2) === "0x" ? hexAddr.slice(2) : hexAddr;
-      const words = fibo.bech32.toWords(Buffer.from(hexAddr, "hex"));
-      const FBaddress = fibo.bech32.encode("fb", words);
-      return FBaddress;
-    } else {
-      // fb转0x
-      const fbAddr = address;
-      const addrBuf = Buffer.from(
-        fibo.bech32.fromWords(fibo.bech32.decode(fbAddr).words)
-      );
-      const OXaddress =
-        "0x" +
-        Array.prototype.map
-          .call(new Uint8Array(addrBuf), (x) =>
-            ("00" + x.toString(16)).slice(-2)
-          )
-          .join("");
-      return OXaddress;
-    }
-  } catch (e) {
-    return address;
-  }
-};
-// 判断是不是fb 0x地址
-export const validateAddress = (addr: string) => {
-  try {
-    // 判断前两位是不是fb地址，不是的话直接返回false
-    if (addr.startsWith("fb")) {
-      // 是的话转化为0x地址去检查
-      const address0x = addressConvert(addr);
-      const flg = isAddress(address0x);
-      return flg;
-    } else if (addr.startsWith("0x")) {
-      const flg = isAddress(addr);
-      return flg;
-    }
-    return false;
-  } catch (err) {
-    return false;
-  }
-};
+
 // 数据脱敏
 export const mobileHidden = (
   value: string,
@@ -171,18 +117,8 @@ export const ethereumAddressImage = (address: string) => {
   circularContext?.closePath();
   circularContext?.clip();
   circularContext?.drawImage(canvas, 0, 0, canvasSize, canvasSize);
-  // 计算文本的居中位置
-  // const textWidth = circularContext?.measureText(address).width || 0;
-  // const textX = (canvasSize - textWidth) / 2;
-  // const textY = canvasSize / 2 + fontSize / 2; // 垂直居中
-  // 在圆形图像上方绘制地址文本
-  // circularContext && (circularContext.font = "16px Arial");
-  // circularContext && (circularContext.fillStyle = "#333"); // 文本颜色
-  // circularContext?.fillText(address, textX, textY); // 调整文本位置
-
   // 将临时画布内容转换为图片格式（PNG）
   const imageDataURL = circularCanvas.toDataURL("image/png");
-
   return imageDataURL; // 返回生成的圆形图片地址
 };
 // 复制
@@ -215,3 +151,36 @@ export const isValidAddress = (inputString: string) => {
     return false; // 字符串不符合要求
   }
 };
+// 保留几位小数并转化为欧式数字和加上想要的符号
+export const cheengeNumber = (
+  iValue: any,
+  digit: number,
+  ellipsis: string = ""
+) => {
+  if (Number(iValue) === 0) {
+    return "0";
+  }
+  var p = (truncateDecimals(Number(iValue), digit) + "").split(".");
+  var chars = p[0].split("").reverse();
+  var newstr = "";
+  var count = 0;
+  for (const x in chars) {
+    count++;
+    if (count % 3 === 1 && count !== 1) {
+      newstr = chars[x] + "," + newstr;
+    } else {
+      newstr = chars[x] + newstr;
+    }
+  }
+  if (digit === 0) {
+    return newstr;
+  } else if (ellipsis !== "") {
+    return newstr + "." + p[1] + ellipsis;
+  }
+  return p[1] ? newstr + "." + p[1] : newstr + "";
+};
+// 控制小数的截取位数
+export function truncateDecimals(number: number, digits: number) {
+  const multiplier = Math.pow(10, digits);
+  return Math.floor(number * multiplier) / multiplier;
+}
