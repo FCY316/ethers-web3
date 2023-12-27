@@ -3,7 +3,7 @@ import blockies from "ethereum-blockies";
 import { message } from "antd";
 
 // 将BigNumber 转换为普通数(数字类型)
-export const formatUnits = (value: any, decimals: number | string = 18) => {
+export const formatUnits = (value: bigint, decimals: number | string = 18) => {
   const result = ethers.formatUnits(value, decimals);
   return Number(result);
 };
