@@ -1,12 +1,12 @@
 import { App } from "antd";
-import { useTranslation } from "react-i18next";
+import changeLocalStorage from "./useChangeLocalStorage";
 
 const useHandleCopyClick = () => {
-    const { i18n } = useTranslation();
+    // 本地缓存的地址类型  本地缓存的语言
+    const { language } = changeLocalStorage.useContainer()
     const { message } = App.useApp();
     // 复制
     const handleCopyClick = (data: string | number) => {
-        const { language } = i18n
         try {
             data = data + "";
             const textField = document.createElement("textarea");
@@ -15,9 +15,9 @@ const useHandleCopyClick = () => {
             textField.select();
             document.execCommand("copy");
             textField.remove();
-            message.success(language === 'en' ? 'Copy success ' : "复制成功");
+            message.success(language === 'en' ? 'Copy successfully ' : "复制成功");
         } catch (e) {
-            message.error(language === 'en' ? 'Copy error ' : "复制失败");
+            message.error(language === 'en' ? 'Copy unsuccessful ' : "复制失败");
 
         }
     };

@@ -5,8 +5,11 @@ import { chainIDArr } from "@/chain";
 import connectedWallet from "./useConnectedWallet";
 import useGetChainID from "./useGetChainID";
 import useChangeChain from "./useChangeChain";
+import changeLocalStorage from "@/hooks/useChangeLocalStorage";
 // 监听钱包的网络
 const useListenerNetWork = () => {
+  // 本地缓存的地址类型  本地缓存的语言
+  const { language } = changeLocalStorage.useContainer()
   // 存放退出钱包的名字，用于关闭老钱包的监听网络事件
   const [oldWalletName, setOldWalletName] = useState('')
   // 判断有没有监听过网络
@@ -29,12 +32,12 @@ const useListenerNetWork = () => {
         const chainID = Number(newNetwork)
         // 查看切换的链是否是我们支持的链
         if (chainIDArr.indexOf(chainID) === -1) {
-          message.warning(`您当前在Chain${chainID}下，无法为您提供服务`);
+          language === 'en' ? message.warning(`You are currently under Chain${chainID} and cannot provide service for you`) : message.warning(`您当前在Chain${chainID}下，无法为您提供服务`);
         }
         // 只要进行了切链，我们需要重新连接钱包，更新provider，singer,在这之前我们需要把provider等清空，触发清除监听的函数
         connected(walletName)
       });
-  }, [connected, switchs, walletName])
+  }, [connected, language, switchs, walletName])
   // 删除监听函数
   const removeListener = useCallback(() => {
     // eslint-disable-next-line no-eval
