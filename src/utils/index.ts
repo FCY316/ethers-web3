@@ -1,17 +1,104 @@
-import { ethers } from "ethers";
+import { ethers, FixedNumber } from "ethers";
 import blockies from "ethereum-blockies";
 import { message } from "antd";
-
+import { Decimal } from "decimal.js";
 // 将BigNumber 转换为普通数(数字类型)
 export const formatUnits = (value: bigint, decimals: number | string = 18) => {
   const result = ethers.formatUnits(value, decimals);
-  return Number(result);
+  return result;
 };
 // 将普通数转换为BigNumber
 export const parseUnits = (value: string, decimals: number | string = 18) => {
   const result = ethers.parseUnits(value, decimals);
   return result;
 };
+// 加
+export const addFixedNumber = (
+  num1: bigint,
+  num2: bigint,
+  decimals1?: number,
+  decimals2?: number
+) => {
+  // 将字符串数字转换为 FixedNumber 对象
+  const fixedNum1 = FixedNumber.fromValue(num1, decimals1);
+  const fixedNum2 = FixedNumber.fromValue(num2, decimals2);
+  // 执行加法操作
+  const result = fixedNum1.add(fixedNum2);
+  // 返回结果
+  return result._value;
+};
+// 减
+export const subtractFixedNumber = (
+  num1: bigint,
+  num2: bigint,
+  decimals1?: number,
+  decimals2?: number
+) => {
+  // 将字符串数字转换为 FixedNumber 对象
+  const fixedNum1 = FixedNumber.fromValue(num1, decimals1);
+  const fixedNum2 = FixedNumber.fromValue(num2, decimals2);
+  // 执行减法操作
+  const result = fixedNum1.sub(fixedNum2);
+  // 返回结果
+  return result._value;
+};
+// 乘
+export const multiplyFixedNumber = (
+  num1: bigint,
+  num2: bigint,
+  decimals1?: number,
+  decimals2?: number
+) => {
+  const def = BigInt(0);
+  if (num1 === def || num2 === def) return "0";
+  // 将字符串数字转换为 FixedNumber 对象
+  const fixedNum1 = FixedNumber.fromValue(num1, decimals1);
+  const fixedNum2 = FixedNumber.fromValue(num2, decimals2);
+  // 执行乘法操作
+  const result = fixedNum1.mul(fixedNum2);
+  // 返回结果
+  return result._value;
+};
+// 除
+export const divideFixedNumber = (
+  num1: bigint,
+  num2: bigint,
+  decimals1?: number,
+  decimals2?: number
+) => {
+  const def = BigInt(0);
+  if (num1 === def || num2 === def) return "0";
+  // 将字符串数字转换为 FixedNumber 对象
+  const fixedNum1 = FixedNumber.fromValue(num1, decimals1);
+  const fixedNum2 = FixedNumber.fromValue(num2, decimals2);
+  // 执行除法操作
+  const result = fixedNum1.div(fixedNum2);
+  // 返回结果
+  return result._value;
+};
+
+export const addDecimal = (num1: number | string, num2: number | string) => {
+  return new Decimal(num1).plus(num2).toString();
+};
+
+export const subtractDecimal = (
+  num1: number | string,
+  num2: number | string
+) => {
+  return new Decimal(num1).minus(num2).toString();
+};
+
+export const multiplyDecimal = (
+  num1: number | string,
+  num2: number | string
+) => {
+  return new Decimal(num1).times(num2).toString();
+};
+
+export const divideDecimal = (num1: number | string, num2: number | string) => {
+  return new Decimal(num1).dividedBy(num2).toString();
+};
+
 // 一般用于授权额度，最大额度
 export const MaxUint256 = ethers.MaxUint256;
 // 时间转换
@@ -44,7 +131,8 @@ export function formatTimeToStr(
   return timeObj[w];
 }
 // ，如果等于0那么就显示0，如果大于0就保留两位小数+..
-export const formatNumber = (value: string | number): string => {
+export const formatNumber = (value: string): string => {
+  if (!Number(value)) return "0";
   // 将输入值转换为字符串
   const stringValue = String(value);
   // 将字符串转换为数字，如果无法解析则返回原始字符串
@@ -54,7 +142,7 @@ export const formatNumber = (value: string | number): string => {
     return stringValue; // 如果无法解析为有效数字，则返回原始输入
   }
   // 使用 toFixed 方法将小数位数限制为两位，然后转换为字符串
-  const formattedAmount = truncateDecimals(Number(value), 2) + "";
+  const formattedAmount = truncateDecimals(value, 2) + "";
   // 使用正则表达式去除末尾多余的零和可能的小数点
   const cleanedAmount = formattedAmount.replace(/(\.0*|0+)$/, "");
   // 检查小数位数是否超过两位，如果超过，则添加省略号
@@ -153,14 +241,14 @@ export const isValidAddress = (inputString: string) => {
 };
 // 保留几位小数并转化为欧式数字和加上想要的符号
 export const cheengeNumber = (
-  iValue: any,
+  iValue: string,
   digit: number,
   ellipsis: string = ""
 ) => {
   if (Number(iValue) === 0) {
     return "0";
   }
-  var p = (truncateDecimals(Number(iValue), digit) + "").split(".");
+  var p = (truncateDecimals(iValue, digit) + "").split(".");
   var chars = p[0].split("").reverse();
   var newstr = "";
   var count = 0;
@@ -180,7 +268,8 @@ export const cheengeNumber = (
   return p[1] ? newstr + "." + p[1] : newstr + "";
 };
 // 控制小数的截取位数
-export function truncateDecimals(number: number, digits: number) {
-  const multiplier = Math.pow(10, digits);
-  return Math.floor(number * multiplier) / multiplier;
+export function truncateDecimals(number: string, digits: number) {
+  const originalValue = new Decimal(number);
+  const roundedValueDown = originalValue.toFixed(digits, Decimal.ROUND_DOWN);
+  return roundedValueDown.toString();
 }
