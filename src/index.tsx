@@ -34,7 +34,7 @@ root.render(
       <newContracts.Provider>
         <changeLocalStorage.Provider>
           {/* ui 框架降级 */}
-          <StyleProvider transformers={[legacyLogicalPropertiesTransformer]}>
+          <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
             <MyApp />
           </StyleProvider>
         </changeLocalStorage.Provider>
