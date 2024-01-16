@@ -1,5 +1,5 @@
+import './style/index.css'
 import AppRouter from '@/router'
-import './MyApp.scss';
 import useListenerNetWork from '@/web3Hooks/useListenerNetWork';
 import useWatchWalletAddress from '@/web3Hooks/useWatchWalletAddress';
 import { App } from 'antd';

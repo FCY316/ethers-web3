@@ -1,9 +1,12 @@
+import { Button } from "antd"
 
 
 const Home = () => {
-  
+
   return (
-    <div className="bg-red-200 box-border px-10 py-10" >Home</div>
+    <div >
+      <Button className="text-tahiti" type="primary">Primary Button</Button>
+    </div>
   )
 }
 
