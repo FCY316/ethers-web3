@@ -4,7 +4,7 @@ import axios, {
   AxiosResponse,
 } from "axios";
 import { message } from "antd";
-const href = process.env.BASE_URL;
+const href = process.env.REACT_APP_URL;
 const $axios = axios.create({
   baseURL: href, // 设置你的API基础URL
   timeout: 5000, // 设置请求超时时间

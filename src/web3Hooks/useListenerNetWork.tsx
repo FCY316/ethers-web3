@@ -2,21 +2,25 @@ import { walletNameList } from "@/walletName";
 import { useCallback, useEffect, useState } from "react";
 import { message } from 'antd';
 import { chainIDArr } from "@/chain";
-import connectedWallet from "./useConnectedWallet";
 import useGetChainID from "./useGetChainID";
 import useChangeChain from "./useChangeChain";
-import changeLocalStorage from "@/hooks/useChangeLocalStorage";
+import useLanguage from "@/store/useLanguage";
+import useWallet from "@/store/useWallet";
+import useConnectedWallet from "./useConnectedWallet";
 // 监听钱包的网络
 const useListenerNetWork = () => {
   // 本地缓存的地址类型  本地缓存的语言
-  const { language } = changeLocalStorage.useContainer()
+  const { language } = useLanguage()
   // 存放退出钱包的名字，用于关闭老钱包的监听网络事件
   const [oldWalletName, setOldWalletName] = useState('')
   // 判断有没有监听过网络
   const [switchs, setSwitchs] = useState(false)
   // 获取可以见检测链id的方法
   const { getChainID } = useGetChainID()
-  const { walletName, provider, connected } = connectedWallet.useContainer();
+  // 连接钱包的方法
+  const { connected } = useConnectedWallet()
+  // 拿到provider
+  const { wallet: { walletName, provider } } = useWallet()
   // 当前 切换链的方法
   const { changeChainID } = useChangeChain()
   // 监听函数

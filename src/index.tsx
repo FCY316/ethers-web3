@@ -3,10 +3,7 @@ import './index.css';
 import MyApp from './MyApp';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom'; //HashRouter
-import connectedWallet from '@/web3Hooks/useConnectedWallet';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
-import newContracts from '@/web3Hooks/useNewContract';
-import changeLocalStorage from '@/hooks/useChangeLocalStorage';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from '@/locales/en.json';
@@ -30,16 +27,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <BrowserRouter>
-    <connectedWallet.Provider initialState={undefined}>
-      <newContracts.Provider>
-        <changeLocalStorage.Provider>
-          {/* ui 框架降级 */}
-          <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
-            <MyApp />
-          </StyleProvider>
-        </changeLocalStorage.Provider>
-      </newContracts.Provider>
-    </connectedWallet.Provider>
+         {/* ui 框架降级 */}
+      <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
+        <MyApp />
+      </StyleProvider>
   </BrowserRouter>);
 
 // If you want to start measuring performance in your app, pass a function

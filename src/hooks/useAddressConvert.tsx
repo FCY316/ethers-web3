@@ -1,12 +1,12 @@
 import { useCallback } from "react";
-import changeLocalStorage from "./useChangeLocalStorage"
 import { Buffer } from "buffer";
 import { isAddress } from "ethers";
+import useAddressType from "@/store/useAddressType";
 const { bech32 } = require("bech32");
 // 转换地址，可以转0x 也可以转fb 判断是不是正确的地址
 const useAddressConvert = () => {
     // 地址类型 本地
-    const { addressType } = changeLocalStorage.useContainer()
+    const { addressType } = useAddressType()
     // fb转换0x
     const transition0x = (address: string) => {
         const addrBuf = Buffer.from(

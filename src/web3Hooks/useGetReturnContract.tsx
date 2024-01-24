@@ -1,11 +1,11 @@
 import { Contract } from "ethers"
-import connectedWallet from "./useConnectedWallet";
+import useWallet from "@/store/useWallet";
 // 获取合约事件返回的内容
 // 传入合约
 const useGetReturnContract = (contract: Contract | null) => {
     // 获取provider，在拿到返回值回用到
     // 拿到provider
-    const { provider, } = connectedWallet.useContainer();
+    const { wallet: { provider } } = useWallet()
     /*
       hash:hash哈希
       evenName:合约事件名称，注意第一个字母大写

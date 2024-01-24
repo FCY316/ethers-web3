@@ -1,29 +1,25 @@
 import { Contract, ethers } from 'ethers'
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import contract from '@/abi/index'
-import CounterContainer from "@/web3Hooks/useConnectedWallet";
-import { createContainer } from 'unstated-next';
 import useGetChainID from './useGetChainID';
+import useWallet from '@/store/useWallet';
+import useContract from '@/store/useContract';
 type objKeyObjectType = {
     [key: string]: object;
 }
 type walletType = {
     erc20: Contract | null
 }
-const initialState: walletType = {
-    erc20: null,
-}
 // new出合约，
-const useNewContract = (props = initialState) => {
+const useNewContract = () => {
     // 获取chainid
     const { chainID } = useGetChainID()
     // new 出来的合约
-    const [contracts, setContracts] = useState(props)
+    const { setContract, clearContract } = useContract()
     // 得到signer
-    const { signer } = CounterContainer.useContainer();
-    // 当signer有后new出合约
-    useEffect(() => {
-        setContracts(initialState)
+    // 拿到provider
+    const { wallet: { signer } } = useWallet()    // 当signer有后new出合约
+    useEffect(() => {        
         if (Number(chainID) && signer) {
             // 当重新new出合约的时候，初始化合约
             try {
@@ -34,16 +30,14 @@ const useNewContract = (props = initialState) => {
                         obj[key] = new ethers.Contract(contract[(chainID)][key].address, contract[chainID][key].abi, signer);
                     }
                 })
-                setContracts((obj as walletType))
+                setContract((obj as walletType))
             }
             catch (e) {
                 console.log('useNewContract', e);
             }
         } else {
-            setContracts(initialState)
+            clearContract()
         }
-    }, [chainID, signer])
-    return contracts
+    }, [chainID, clearContract, setContract, signer])
 }
-const newContracts = createContainer(useNewContract)
-export default newContracts
+export default useNewContract

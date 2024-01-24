@@ -1,9 +1,9 @@
+import useLanguage from "@/store/useLanguage";
 import { App } from "antd";
-import changeLocalStorage from "./useChangeLocalStorage";
 
 const useHandleCopyClick = () => {
     // 本地缓存的地址类型  本地缓存的语言
-    const { language } = changeLocalStorage.useContainer()
+    const { language } = useLanguage()
     const { message } = App.useApp();
     // 复制
     const handleCopyClick = (data: string | number) => {

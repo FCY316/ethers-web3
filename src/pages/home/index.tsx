@@ -5,7 +5,7 @@ const Home = () => {
 
   return (
     <div >
-      <Button className="text-tahiti" type="primary">Primary Button</Button>
+      <Button className="max-tablet:bg-red-500  tablet:bg-slate-950" type="primary">Primary Button</Button>
     </div>
   )
 }

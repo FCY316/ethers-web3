@@ -1,7 +1,8 @@
-import CounterContainer from "./useConnectedWallet";
+import useWallet from "@/store/useWallet";
 // 监听交易是否成功
 const useListenerTransfer = () => {
-    const { provider } = CounterContainer.useContainer();
+    // 拿到provider
+    const { wallet: { provider } } = useWallet()
     const listenerTransferF = (transactionHash: any) => {
         return new Promise((reslove, reject) => {
             provider?.once(transactionHash, (receipt: any) => {

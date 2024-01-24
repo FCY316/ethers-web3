@@ -27,9 +27,9 @@
     "sass": "^1.63.2",
     "tailwindcss": "^3.4.1",
     "typescript": "^4.9.5",
-    "unstated-next": "^1.1.0",
     "vconsole": "^3.15.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zustand": "^4.5.0"
   },
   "scripts": {
     "start:dev": "dotenv -e config/.env.development craco start",

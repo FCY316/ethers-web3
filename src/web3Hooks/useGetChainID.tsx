@@ -1,5 +1,5 @@
+import useWallet from "@/store/useWallet";
 import { useCallback, useEffect, useState } from "react";
-import connectedWallet from "./useConnectedWallet";
 // 获取链id
 const useGetChainID = () => {
     // chainId
@@ -7,7 +7,7 @@ const useGetChainID = () => {
     // loading
     const [chainIDLod, setLoading] = useState(false)
     // 拿到provider
-    const { provider, } = connectedWallet.useContainer();
+    const { wallet: { provider } } = useWallet()
     const getChainID = useCallback(async () => {
         if (provider) {
             setLoading(true)
@@ -28,7 +28,7 @@ const useGetChainID = () => {
                 setLoading(false)
                 console.log('useApprove', e);
             }
-        }else{
+        } else {
             setChainID(0)
         }
     }, [provider])

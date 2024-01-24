@@ -1,11 +1,11 @@
 import { useState } from "react";
-import connectedWallet from "./useConnectedWallet";
 import { chainParams } from '@/chain'
+import useWallet from "@/store/useWallet";
 // 切换链,如果切换没有成功，那么就是没有fibo链，会进行添加网络
 const useChangeChain = () => {
     const [changeChainIDLod, setLoading] = useState(false)
     // 拿到provider
-    const { provider, } = connectedWallet.useContainer();
+    const { wallet: { provider } } = useWallet()
     // 切换链,如果切换链失败就添加链
     // 切换链
     const changeChainID = async (chainID: number) => {
