@@ -19,7 +19,7 @@ const useNewContract = () => {
     // 得到signer
     // 拿到provider
     const { wallet: { signer } } = useWallet()    // 当signer有后new出合约
-    useEffect(() => {        
+    useEffect(() => {
         if (Number(chainID) && signer) {
             // 当重新new出合约的时候，初始化合约
             try {

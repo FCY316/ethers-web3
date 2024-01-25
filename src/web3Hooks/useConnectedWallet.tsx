@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { ethers } from 'ethers'
 import { download, walletNameList, walletNameListShow } from "@/walletName"
 import useWallet from "@/store/useWallet"
@@ -39,13 +38,6 @@ const useConnectedWallet = () => {
         // 然后清除状态管理的参数
         clearWallet()
     }
-    // 在页面初始化的时候检测本地是都有缓存，有的话连接，没有的话不管
-    useEffect(() => {
-        if (wallet.walletName) {
-            connected()
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
     return { connected, breaks }
 }
 export default useConnectedWallet
