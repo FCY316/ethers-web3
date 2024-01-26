@@ -1,81 +1,7 @@
-import { ethers, FixedNumber } from "ethers";
 import blockies from "ethereum-blockies";
 import { message } from "antd";
 import { Decimal } from "decimal.js";
-// 将BigNumber 转换为普通数(数字类型)
-export const formatUnits = (value: bigint, decimals: number | string = 18) => {
-  const result = ethers.formatUnits(value, decimals);
-  return result;
-};
-// 将普通数转换为BigNumber
-export const parseUnits = (value: string, decimals: number | string = 18) => {
-  const result = ethers.parseUnits(value, decimals);
-  return result;
-};
-// 加
-export const addFixedNumber = (
-  num1: bigint,
-  num2: bigint,
-  decimals1?: number,
-  decimals2?: number
-) => {
-  // 将字符串数字转换为 FixedNumber 对象
-  const fixedNum1 = FixedNumber.fromValue(num1, decimals1);
-  const fixedNum2 = FixedNumber.fromValue(num2, decimals2);
-  // 执行加法操作
-  const result = fixedNum1.add(fixedNum2);
-  // 返回结果
-  return result._value;
-};
-// 减
-export const subtractFixedNumber = (
-  num1: bigint,
-  num2: bigint,
-  decimals1?: number,
-  decimals2?: number
-) => {
-  // 将字符串数字转换为 FixedNumber 对象
-  const fixedNum1 = FixedNumber.fromValue(num1, decimals1);
-  const fixedNum2 = FixedNumber.fromValue(num2, decimals2);
-  // 执行减法操作
-  const result = fixedNum1.sub(fixedNum2);
-  // 返回结果
-  return result._value;
-};
-// 乘
-export const multiplyFixedNumber = (
-  num1: bigint,
-  num2: bigint,
-  decimals1?: number,
-  decimals2?: number
-) => {
-  const def = BigInt(0);
-  if (num1 === def || num2 === def) return "0";
-  // 将字符串数字转换为 FixedNumber 对象
-  const fixedNum1 = FixedNumber.fromValue(num1, decimals1);
-  const fixedNum2 = FixedNumber.fromValue(num2, decimals2);
-  // 执行乘法操作
-  const result = fixedNum1.mul(fixedNum2);
-  // 返回结果
-  return result._value;
-};
-// 除
-export const divideFixedNumber = (
-  num1: bigint,
-  num2: bigint,
-  decimals1?: number,
-  decimals2?: number
-) => {
-  const def = BigInt(0);
-  if (num1 === def || num2 === def) return "0";
-  // 将字符串数字转换为 FixedNumber 对象
-  const fixedNum1 = FixedNumber.fromValue(num1, decimals1);
-  const fixedNum2 = FixedNumber.fromValue(num2, decimals2);
-  // 执行除法操作
-  const result = fixedNum1.div(fixedNum2);
-  // 返回结果
-  return result._value;
-};
+import dayjs from "dayjs";
 
 export const addDecimal = (num1: number | string, num2: number | string) => {
   return new Decimal(num1).plus(num2).toString();
@@ -99,36 +25,12 @@ export const divideDecimal = (num1: number | string, num2: number | string) => {
   return new Decimal(num1).dividedBy(num2).toString();
 };
 
-// 一般用于授权额度，最大额度
-export const MaxUint256 = ethers.MaxUint256;
 // 时间转换
 export function formatTimeToStr(
   times: any,
-  pattern1: any = "-",
-  pattern2: any = ":",
-  w: string = "D"
+  format: string = "YYYY-MM-DD HH:mm:ss"
 ) {
-  // 时间转换
-  var date = new Date(times); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
-  var Y = date.getFullYear() + pattern1;
-  var M =
-    (date.getMonth() + 1 < 10
-      ? "0" + (date.getMonth() + 1)
-      : date.getMonth() + 1) + pattern1;
-  var D = (date.getDate() < 10 ? "0" + date.getDate() : date.getDate()) + " ";
-  var h =
-    (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + pattern2;
-  var m = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-  var s = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-  const timeObj: { [key: string]: string } = {
-    s: Y + M + D + h + m + s,
-    m: Y + M + D + h + m,
-    h: Y + M + D + h,
-    D: Y + M + D,
-    M: Y + M,
-    Y: Y,
-  };
-  return timeObj[w];
+  return dayjs(times).format(format);
 }
 // ，如果等于0那么就显示0，如果大于0就保留两位小数+..
 export const formatNumber = (value: string): string => {
