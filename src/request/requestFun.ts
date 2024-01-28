@@ -9,11 +9,7 @@ export const getRequest = async <T>(
     const { data } = await $axios.get(url, { params });
     return data;
   } catch (e: any) {
-    return {
-      code: e.code,
-      msg: e.msg || "网络错误",
-      data: null as any,
-    };
+    throw e;
   }
 };
 
@@ -26,10 +22,6 @@ export const postRequest = async <T>(
     const { data } = await $axios.post(url, params);
     return data;
   } catch (e: any) {
-    return {
-      code: e.code,
-      msg: e.msg || "网络错误",
-      data: null as any,
-    };
+    throw e;
   }
 };
