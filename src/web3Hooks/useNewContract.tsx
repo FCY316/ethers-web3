@@ -1,4 +1,4 @@
-import { Contract, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import { useEffect } from "react";
 import contract from '@/abi/index'
 import useGetChainID from './useGetChainID';
@@ -6,9 +6,6 @@ import useWallet from '@/store/useWallet';
 import useContract from '@/store/useContract';
 type objKeyObjectType = {
     [key: string]: object;
-}
-type walletType = {
-    erc20: Contract | null
 }
 // new出合约，
 const useNewContract = () => {
@@ -30,7 +27,7 @@ const useNewContract = () => {
                         obj[key] = new ethers.Contract(contract[(chainID)][key].address, contract[chainID][key].abi, signer);
                     }
                 })
-                setContract((obj as walletType))
+                setContract((obj as any))
             }
             catch (e) {
                 console.log('useNewContract', e);
