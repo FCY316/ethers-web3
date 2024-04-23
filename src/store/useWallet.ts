@@ -1,5 +1,5 @@
 import { Provider, Signer } from "ethers";
-import create from "zustand";
+import { create } from "zustand";
 type walletType = {
   provider: Provider | null;
   signer: Signer | null;
@@ -26,7 +26,9 @@ export const useWallet = create<AppState>((set) => ({
   },
   // 清空
   clearWallet: () => {
-    return set({ wallet: { provider: null, signer: null, address: "", walletName: "" } });
+    return set({
+      wallet: { provider: null, signer: null, address: "", walletName: "" },
+    });
   },
 }));
 

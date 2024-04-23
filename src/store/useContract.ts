@@ -1,5 +1,5 @@
 import { Contract } from "ethers";
-import create from "zustand";
+import { create } from "zustand";
 
 type ContractType = {
   erc20: Contract | null;
