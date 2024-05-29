@@ -4,6 +4,9 @@ export interface stringKey {
 export interface numberKey {
   [key: number]: string;
 }
+export interface stringKeyObj {
+  [key: string]: object;
+}
 export interface MyResponseType<T = any> {
   code: number;
   msg: string;

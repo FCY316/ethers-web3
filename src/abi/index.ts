@@ -1,8 +1,26 @@
-import FContact from "./Fabi";
+import { Interface, InterfaceAbi } from "ethers";
+const erc20Abi = require("./json/erc20.json");
+
+type objKeyObjectType = {
+  [key: string]: { address: string; abi: Interface | InterfaceAbi };
+};
 type numberAny = {
-  [key: number]: any;
+  [key: number]: objKeyObjectType;
 };
-const contract: numberAny = {
-  12306: FContact,
+if (process.env.REACT_APP_ENV === "development") {
+  console.log("环境", process.env.REACT_APP_ENV);
+  //开发环境
+} else if (process.env.REACT_APP_ENV === "test") {
+  // 测试环境
+  console.log("环境", process.env.REACT_APP_ENV);
+} else {
+  //生产环境
+  console.log("环境", process.env.REACT_APP_ENV);
+}
+
+const contractAll: numberAny = {
+  12306: {
+    erc20: { abi: erc20Abi, address: "" },
+  },
 };
-export default contract;
+export default contractAll;
