@@ -1,9 +1,8 @@
 import { Contract, Provider, Signer, ethers } from "ethers";
 import { create } from "zustand";
-import { download, walletNameList, walletNameListShow } from "@/walletName";
 import contractAll from "@/abi";
 import { stringKeyObj } from "@/interface";
-import { chainIDArr, chainParams } from "@/chain";
+import { chainIDArr, chainParams, walletList } from "@/abi/chain";
 import { message } from "antd";
 
 type walletType = {
@@ -41,10 +40,10 @@ export const useWallet = create<AppState>((set) => {
   const connectedWallet = async (walletName: string = "MetaMask") => {
     try {
       // eslint-disable-next-line no-eval
-      if (eval(`window.${walletNameListShow[walletName]}`)) {
+      if (eval(`window.${walletList[walletName].walletIs}`)) {
         const provider = new ethers.BrowserProvider(
           // eslint-disable-next-line no-eval
-          eval(`window.${walletNameList[walletName]}`)
+          eval(`window.${walletList[walletName].ethereum}`)
         );
         // 获取signer
         const signer = await provider.getSigner();
@@ -79,7 +78,7 @@ export const useWallet = create<AppState>((set) => {
         // 监听网络
         if (!netWorkState) {
           // eslint-disable-next-line no-eval
-          eval(`window.${walletNameList[walletName]}`)?.on(
+          eval(`window.${walletList[walletName].ethereum}`)?.on(
             "chainChanged",
             (newNetwork: any) => {
               const chainID = Number(newNetwork);
@@ -97,7 +96,7 @@ export const useWallet = create<AppState>((set) => {
         // 监听地址
         if (!addressState) {
           // eslint-disable-next-line no-eval
-          eval(`window.${walletNameList[walletName]}`)?.on(
+          eval(`window.${walletList[walletName].ethereum}`)?.on(
             "accountsChanged",
             () => {
               connectedWallet(walletName);
@@ -139,7 +138,7 @@ export const useWallet = create<AppState>((set) => {
           contract: contract as ContractType,
         }));
       } else {
-        window.open(download[walletName]);
+        window.open(walletList[walletName].download);
       }
     } catch (e) {
       console.log("Error connecting wallet:", e);

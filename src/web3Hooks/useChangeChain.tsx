@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { chainParams } from '@/chain'
+import { chainParams } from '@/abi/chain'
 import useWallet from "@/store/useWallet";
 // 切换链,如果切换没有成功，那么就是没有fibo链，会进行添加网络
 const useChangeChain = () => {
