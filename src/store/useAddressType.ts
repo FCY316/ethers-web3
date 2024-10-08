@@ -17,7 +17,7 @@ export const useAddressType = create<AppState>((set) => {
     setAddressType: (addressType: string) => {
       if (typeof window !== "undefined") {
         localStorage.setItem("addressType", addressType);
-        return set({ addressType });
+        return set((state) => ({ ...state, addressType }));
       }
     },
   };

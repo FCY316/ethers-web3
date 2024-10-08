@@ -12,7 +12,7 @@ export const useLanguage = create<AppState>((set) => ({
   // 设置language
   setLanguage: (language: string) => {
     localStorage.setItem("language", language);
-    return set({ language });
+    return set((state) => ({ ...state, language }));
   },
 }));
 
