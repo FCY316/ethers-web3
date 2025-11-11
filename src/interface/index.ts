@@ -22,8 +22,7 @@ export interface RouteObjects {
 }
 export type objKeyObjectType = {
   [key: string]: Contract | null;
-  router: Contract | null;
-  factory: Contract | null;
+  erc20: Contract | null;
 };
 
 export interface numKeyObj {

@@ -1,9 +1,5 @@
 import { Interface, InterfaceAbi } from "ethers"; // 从 ethers.js 中引入 Interface 类型和 ABI 接口类型
-
-import factoryAbi from "./abi/factory.json";
-// 引入合约的 ABI（合约函数结构定义），通常由编译后的 JSON 文件提供
-import routerAbi from "./abi/router.json";
-
+import erc20 from "./abi/erc20.json"; // 引入 Router 合约的 ABI
 /**
  * 定义一个对象 `evmCAddress`，用于存储 EVM 链（以 chainId 为键）上部署的所有合约地址与 ABI 信息
  * 格式为：
@@ -22,14 +18,10 @@ export const evmCAddress: {
   };
 } = {
   12306: {
-    // usdtErc20 合约配置
-    router: {
+    // Erc20 合约配置
+    erc20: {
       address: "0xDA92E22463F655310d2438295F64C46EC4540d73", // 合约地址
-      abi: routerAbi, // 引入的 USDT 合约 ABI（ERC20 格式）
-    },
-    factory: {
-      address: "0xAd619E4Fccb91A51e40FFd3E75fa6613bC1beE1f",
-      abi: factoryAbi,
+      abi: erc20, // 合约 ABI（ERC20 格式）
     },
   },
 };

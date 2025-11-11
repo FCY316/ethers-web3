@@ -1,9 +1,9 @@
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
-import { evmChain } from '@/collocate';
-import { WindowWithWallets } from '@/interface';
+import { evmChain } from "@/collocate";
+import { WindowWithWallets } from "@/interface";
 
-import { walletList } from '../walletInfo/walletList';
+import { walletList } from "../walletInfo/walletList";
 
 /**
  * 监听 EVM 钱包地址切换事件
@@ -26,6 +26,8 @@ export const watchSetAddressEvm = async (
     if (walletInfo && walletInfo.walletIs in window) {
       // 获取指定钱包的 EVM 提供者
       const providerEvm = (window as WindowWithWallets)[walletInfo.walletIs];
+      // 移除所有 'accountsChanged' 事件监听，避免重复触发
+      providerEvm.removeAllListeners("accountsChanged");
 
       // 监听 `accountsChanged` 事件，当账户变化时执行回调函数
       providerEvm.once("accountsChanged", (accounts: string[]) => {
@@ -61,6 +63,8 @@ export const watchSetNetWorkEvm = async (
     if (walletInfo && walletInfo.walletIs in window) {
       // 获取指定钱包的 EVM 提供者
       const providerEvm = (window as WindowWithWallets)[walletInfo.walletIs];
+      // 移除所有 'chainChanged' 事件监听，避免重复触发
+      providerEvm.removeAllListeners("chainChanged");
 
       // 监听 `chainChanged` 事件，当链 ID 发生变化时执行回调函数
       providerEvm.once("chainChanged", (chainid: string) => {

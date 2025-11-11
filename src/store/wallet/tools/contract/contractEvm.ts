@@ -11,8 +11,7 @@ import { evmCAddress } from "./cAddress"; // 引入所有链的合约地址和 A
  * @returns 包含所有合约实例的对象，如果不存在对应链或 signer 为空，则返回空对象
  */
 export const intContractEvm: objKeyObjectType = {
-  router: null,
-  factory: null,
+  erc20: null,
 };
 const contractEvm = (
   chainIdWithoutSuffix: number,
