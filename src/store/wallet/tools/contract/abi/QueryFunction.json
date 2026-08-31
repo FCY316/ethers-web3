@@ -1,0 +1,161 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_mgc",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_curDay",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            }
+        ],
+        "name": "dayUserTeamStake",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_start",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_limit",
+                "type": "uint256"
+            }
+        ],
+        "name": "getDirLinkUsers",
+        "outputs": [
+            {
+                "internalType": "address[]",
+                "name": "userL0Addr",
+                "type": "address[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "amount",
+                "type": "uint256[]"
+            },
+            {
+                "internalType": "uint256[]",
+                "name": "poolBalance",
+                "type": "uint256[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            }
+        ],
+        "name": "getDirectNodeNum",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            }
+        ],
+        "name": "getLinkPerformance",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "_smallLinkReward",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_bestLinkReward",
+                "type": "uint256"
+            },
+            {
+                "internalType": "address",
+                "name": "_bestLink",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256[5]",
+                "name": "_levelNum",
+                "type": "uint256[5]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            }
+        ],
+        "name": "getRealValidNodeNum",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "num",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "mgc",
+        "outputs": [
+            {
+                "internalType": "contract MGC",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+]
