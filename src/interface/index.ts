@@ -4,9 +4,6 @@ import { Contract } from "ethers";
 
 export type LocalesType = "en" | "zh" | "ja" | "ko";
 export type ChainsBigType = "evm";
-export interface WindowWithWallets extends Window {
-  [key: string]: any;
-}
 export interface RouteObjects {
   // 让不让menu读取
   menuReady?: boolean;
@@ -34,12 +31,6 @@ export interface strKeyReactNode {
 export interface strKeyStr {
   [key: string]: string;
 }
-export type ChainsTypeKeyFun = {
-  [key in ChainsBigType]: Function;
-};
-export type ChainsTypeKeyStr = {
-  [key in ChainsBigType]: string;
-};
 export type ChainsTypeKeyNum = {
   [key in ChainsBigType]: number;
 };
