@@ -11,10 +11,11 @@ export const chainParams: any = {
       symbol: "HUGE",
       decimals: 18,
     },
-    rpcUrls: ["http://16.162.168.73:8545"],
+    rpcUrls: ["https://rpc.interstellarchain.org/"],
     // 用于新区块、Transfer、Approval 等实时事件订阅。
-    webSocketUrls: ["ws://16.162.168.95:8546"],
-    blockExplorerUrls: [],
+    // webSocketUrls: ["ws://16.162.168.95:8546"],
+    webSocketUrls: ["wss://rpc.interstellarchain.org"],
+    blockExplorerUrls: ["https://scan.interstellarchain.org/"],
   },
   56: {
     chainId: 56,
