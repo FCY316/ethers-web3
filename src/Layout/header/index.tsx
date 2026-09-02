@@ -1,5 +1,5 @@
 import useConnectWallet from "@/store/wallet/useConnectWallet"
-import { useConnectWalletInt } from "@/store/wallet/useConnectWalletInt"
+import useConnectWalletInt from "@/store/wallet/useConnectWalletInt"
 import { Button } from "antd"
 
 const Header = () => {

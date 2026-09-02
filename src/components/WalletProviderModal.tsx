@@ -36,7 +36,6 @@ const WalletProviderModal = () => {
     setConnectingUuid(undefined);
     if (connected) setOpenWallet(false);
   };
-
   return (
     <Modal
       title="选择钱包"
@@ -44,7 +43,7 @@ const WalletProviderModal = () => {
       footer={null}
       onCancel={() => setOpenWallet(false)}
     >
-      {/* 没有 provider 时提示重新扫描；不会读取或猜测 window.ethereum。 */}
+      {/* 没有 provider 时提示重新扫描，直到钱包扩展公告可用的 EIP-6963 provider。 */}
       {walletProviders.length ? (
         <div className="flex flex-col gap-2">
           {walletProviders.map(({ info }) => (

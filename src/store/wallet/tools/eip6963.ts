@@ -14,7 +14,10 @@ export interface Eip1193Provider {
   /** 注册钱包事件；部分 provider 不实现事件接口，所以该字段是可选的。 */
   on?: (event: string, listener: (...args: unknown[]) => void) => void;
   /** 移除本应用注册的事件监听器，避免重连后重复响应同一事件。 */
-  removeListener?: (event: string, listener: (...args: unknown[]) => void) => void;
+  removeListener?: (
+    event: string,
+    listener: (...args: unknown[]) => void,
+  ) => void;
 }
 
 /** EIP-6963 中用于展示和标识钱包的公开信息。 */
@@ -58,12 +61,12 @@ const isProviderDetail = (value: unknown): value is Eip6963ProviderDetail => {
   const detail = value as Partial<Eip6963ProviderDetail>;
   return Boolean(
     detail.info &&
-      typeof detail.info.uuid === "string" &&
-      typeof detail.info.name === "string" &&
-      typeof detail.info.icon === "string" &&
-      typeof detail.info.rdns === "string" &&
-      detail.provider &&
-      typeof detail.provider.request === "function"
+    typeof detail.info.uuid === "string" &&
+    typeof detail.info.name === "string" &&
+    typeof detail.info.icon === "string" &&
+    typeof detail.info.rdns === "string" &&
+    detail.provider &&
+    typeof detail.provider.request === "function",
   );
 };
 

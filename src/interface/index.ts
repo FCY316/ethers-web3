@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 import { Contract } from "ethers";
 
 export type LocalesType = "en" | "zh" | "ja" | "ko";
-export type ChainsBigType = "evm";
 export interface RouteObjects {
   // 让不让menu读取
   menuReady?: boolean;
@@ -31,12 +30,6 @@ export interface strKeyReactNode {
 export interface strKeyStr {
   [key: string]: string;
 }
-export type ChainsTypeKeyNum = {
-  [key in ChainsBigType]: number;
-};
-export type ChainsTypeKeyArr<T> = {
-  [key in ChainsBigType]: T[];
-};
 // axios 返回的数据格式
 export interface MyResponseType<T> {
   code: number;

@@ -53,7 +53,7 @@ const useChainRpc = create<AppState>((set) => {
   } catch (err) {
     // 捕获初始化异常并记录错误信息
     error = (err as Error).message || '初始化失败';
-    console.log('初始化 FiboChain RPC 失败:', err);
+    console.log('初始化  RPC 失败:', err);
   }
 
   // 返回全局状态
@@ -66,5 +66,4 @@ const useChainRpc = create<AppState>((set) => {
 });
 
 
-// 导出 useFiboChainRpc 供全局使用
 export default useChainRpc;
