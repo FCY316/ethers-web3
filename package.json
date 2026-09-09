@@ -66,5 +66,9 @@
   },
   "devDependencies": {
     "dotenv-cli": "^7.3.0"
+  },
+  "resolutions": {
+    "react-scripts/@svgr/webpack": "6.5.1",
+    "**/svgo": "2.8.3"
   }
 }
