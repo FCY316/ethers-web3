@@ -15,7 +15,7 @@ const ReturnCom = ({ title }: { title: string }) => {
         <div
             className='flex items-center text-white '
         >
-            <div onClick={() => router(-1)} className=' rounded-full bg-footBorder w-10 h-10 flex items-center justify-center mr-2.5'>
+            <div onClick={() => router(-1)} className=' rounded-full bg-white/20 w-10 h-10 flex items-center justify-center mr-2.5'>
                 <Icon src={leftRight} className='w-6 mr-1.75 text-white' /> {/* 渲染返回图标 */}
             </div>
             <span className='text-sm'>{title}</span> {/* 显示传入的标题 */}

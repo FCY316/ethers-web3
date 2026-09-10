@@ -1,6 +1,15 @@
-import { Button, Empty, Modal } from "antd";
+import { SearchX } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Spinner } from "@/components/ui/spinner";
 import useConnectWallet from "@/store/wallet/useConnectWallet";
 import useWalletPop from "@/store/walletPop";
 
@@ -37,42 +46,56 @@ const WalletProviderModal = () => {
     if (connected) setOpenWallet(false);
   };
   return (
-    <Modal
-      title="选择钱包"
+    <Dialog
       open={openWallet}
-      footer={null}
-      onCancel={() => setOpenWallet(false)}
+      onOpenChange={(open) => setOpenWallet(open)}
     >
-      {/* 没有 provider 时提示重新扫描，直到钱包扩展公告可用的 EIP-6963 provider。 */}
-      {walletProviders.length ? (
-        <div className="flex flex-col gap-2">
-          {walletProviders.map(({ info }) => (
-            <Button
-              block
-              key={info.uuid}
-              className="flex h-12 items-center justify-start"
-              loading={connectingUuid === info.uuid}
-              onClick={() => connectProvider(info.uuid)}
-            >
-              {/* EIP-6963 的 SVG icon 仅以 img 渲染，避免执行不受信任的脚本。 */}
-              <img
-                alt=""
-                className="mr-3 h-6 w-6 rounded"
-                src={info.icon}
-              />
-              <span>{info.name}</span>
+      {/* 官方 Dialog 负责模态交互；这里仅补充手机端可滚动的业务布局。 */}
+      <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>选择钱包</DialogTitle>
+          {/* 保留描述供屏幕阅读器理解弹窗用途，视觉上不额外占用小屏空间。 */}
+          <DialogDescription className="sr-only">
+            从已发现的钱包扩展中选择一个进行连接。
+          </DialogDescription>
+        </DialogHeader>
+        {/* 没有 provider 时提示重新扫描，直到钱包扩展公告可用的 EIP-6963 provider。 */}
+        {walletProviders.length ? (
+          <div className="flex flex-col gap-2">
+            {walletProviders.map(({ info }) => (
+              <Button
+                className="h-14 w-full justify-start"
+                disabled={connectingUuid === info.uuid}
+                key={info.uuid}
+                onClick={() => connectProvider(info.uuid)}
+                variant="outline"
+              >
+                {/* 官方 Spinner 仅在当前被点击的钱包上显示，避免其他选项的状态被误解。 */}
+                {connectingUuid === info.uuid && <Spinner aria-label="正在连接钱包" />}
+                {/* EIP-6963 的 SVG icon 仅以 img 渲染，避免执行不受信任的脚本。 */}
+                <img
+                  alt=""
+                  className="h-6 w-6 shrink-0 rounded"
+                  src={info.icon}
+                />
+                <span className="min-w-0 truncate">{info.name}</span>
+              </Button>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-4 py-5 text-center">
+            <SearchX aria-hidden className="h-10 w-10 text-muted-foreground" />
+            <p className="text-sm leading-5 text-muted-foreground">
+              未发现支持 EIP-6963 的钱包扩展
+            </p>
+            {/* 再次派发 requestProvider，不需要刷新页面。 */}
+            <Button onClick={discoverWalletProviders}>
+              重新检测
             </Button>
-          ))}
-        </div>
-      ) : (
-        <Empty description="未发现支持 EIP-6963 的钱包扩展">
-          {/* 再次派发 requestProvider，不需要刷新页面。 */}
-          <Button type="primary" onClick={discoverWalletProviders}>
-            重新检测
-          </Button>
-        </Empty>
-      )}
-    </Modal>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 };
 

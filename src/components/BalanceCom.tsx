@@ -2,8 +2,8 @@
 
 import { formatUnits } from 'ethers';
 
+import { Spinner } from '@/components/ui/spinner';
 import { formatNumber } from '@/utils';
-import { LoadingOutlined } from '@ant-design/icons';
 
 // BalanceCom 组件接收余额数据并格式化显示，加载中则显示 Loading 图标。
 const BalanceCom = ({
@@ -21,7 +21,7 @@ const BalanceCom = ({
       {qText && qText}
       {loading ? (
         // 如果处于加载中，显示加载图标
-        <LoadingOutlined className='leading-none' />
+        <Spinner className='inline-block align-middle' />
       ) : (
         // 否则将余额格式化为以 ETH 为单位的浮点数，并保留 4 位小数
         isFormatUnits ? formatNumber(formatUnits(balance, unit), decimals) : formatNumber(Number(balance) + '', decimals)

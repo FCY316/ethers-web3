@@ -1,19 +1,14 @@
-// 导入必要的组件和图标
-import { Spin } from 'antd';
 import { useTranslation } from 'react-i18next'; // 引入国际化 Hook
+import { Meh, Smile } from 'lucide-react';
 
-import {
-    LoadingOutlined,
-    MehOutlined,
-    SmileOutlined,
-} from '@ant-design/icons';
+import { Spinner } from '@/components/ui/spinner';
 
 // 自定义空状态组件，用于在没有数据时显示
 const CustomizeRenderEmpty = () => {
     const { t } = useTranslation(); // 使用国际化 Hook
     return (
         <div className='w-full text-center mt-3 text-white'>
-            <SmileOutlined className=' text-xl pb-1 mr-1' /> {/* 笑脸图标 */}
+            <Smile className='inline h-5 w-5 pb-1 mr-1' aria-hidden /> {/* 笑脸图标 */}
             <p className='text-xs'>{t('com.noData')}</p> {/* 使用国际化文本 */}
         </div>
     );
@@ -24,7 +19,7 @@ const OverCom = ({ className }: { className?: string }) => {
     const { t } = useTranslation(); // 使用国际化 Hook
     return (
         <div className={`w-full  my-3 flex items-center justify-center text-white ${className}`}>
-            <MehOutlined className='text-xl mr-1' /> {/* 表情图标 */}
+            <Meh className='h-5 w-5 mr-1' aria-hidden /> {/* 表情图标 */}
             <p className='text-xs'>{t('com.reachedEnd')}</p> {/* 使用国际化文本 */}
         </div>
     );
@@ -76,7 +71,7 @@ const ScrollView = ({
                 {(children as any).length === 0 && !scroll.loading && <CustomizeRenderEmpty />}
                 {/* 显示加载状态 */}
                 <div className={`flex items-center justify-center my-4 w-full text-white ${scroll.loading ? '' : 'hidden'}`}>
-                    <Spin className={`mr-2 text-white`} indicator={<LoadingOutlined spin />} /> {/* 加载图标 */}
+                    <Spinner className='mr-2' /> {/* 加载图标 */}
                     <span className='text-xs '>{t('com.loading')}</span> {/* 使用国际化文本 */}
                 </div>
                 {/* 如果有子组件且滚动到底，则显示“到底了”状态 */}

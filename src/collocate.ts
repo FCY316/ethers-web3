@@ -1,5 +1,3 @@
-import { MenuProps } from "antd";
-
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const evmChain = [1678];
 export const chainParams: any = {
@@ -53,7 +51,13 @@ export const CONTACT_LINK = {
   discord: "https://discord.gg/3U4Xpyv6hA",
 };
 // 语言选项
-export const languageItems: MenuProps["items"] = [
+/**
+ * 语言菜单的框架无关数据结构。
+ *
+ * 此前仅为了复用 Ant Design 的 MenuProps 而引入 antd；项目当前没有使用其 Menu 组件，
+ * 因此保留实际所需字段即可，未来任意菜单组件都可复用这份配置。
+ */
+export const languageItems: Array<{ key: string; label: string }> = [
   {
     key: "zh",
     label: "中文",

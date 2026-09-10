@@ -1,30 +1,34 @@
-import 'react-toastify/dist/ReactToastify.css';
+import { ThemeProvider } from 'next-themes';
 
-import { ConfigProvider } from 'antd';
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from '@/components/ui/sonner';
 
-// 从@ant-design/cssinjs中导入px2rem转换器和样式提供者
-import {
-    legacyLogicalPropertiesTransformer,
-    StyleProvider,
-} from '@ant-design/cssinjs';
-
-// 定义一个样式提供者组件，它将使用状态管理和样式转换来包装其子组件
+/**
+ * 集中挂载 shadcn/ui 所需的应用级能力。
+ *
+ * ThemeProvider 是 next-themes 提供的官方主题上下文，Sonner 直接使用它决定亮/暗提示外观；
+ * Toaster 仍只挂载一次，页面不需要各自放置提示容器。
+ */
 const StyleProviderCom = ({ children }: { children: React.ReactNode }) => {
 
     return (
-        <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]} >
-            <ToastContainer theme='dark' />
-            <ConfigProvider
-                theme={{
-                    components: {
-
-                    },
+        <ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange enableSystem>
+            {/*
+              全局提示只挂载一次。业务层通过 sonner 的 toast.success/warning/error 调用，
+              不必把提示容器重复放入页面或弹窗内。
+            */}
+            <Toaster
+                closeButton
+                duration={4000}
+                mobileOffset={{
+                    top: 'max(1rem, env(safe-area-inset-top))',
+                    left: '1rem',
+                    right: '1rem',
                 }}
-            >
-                {children}
-            </ConfigProvider>
-        </StyleProvider>
+                position="top-center"
+                visibleToasts={2}
+            />
+            {children}
+        </ThemeProvider>
     )
 }
 

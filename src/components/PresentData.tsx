@@ -1,4 +1,4 @@
-import { LoadingOutlined } from '@ant-design/icons'; // 加载状态的图标
+import { Spinner } from '@/components/ui/spinner';
 
 // 定义 PresentData 组件，用于显示数据或加载状态
 const PresentData = ({
@@ -13,7 +13,7 @@ const PresentData = ({
             {qText && qText}
             {loading ? (
                 // 如果处于加载中，显示加载图标
-                <LoadingOutlined className='leading-none relative ' />
+                <Spinner className='inline-block align-middle' />
             ) : (
                 // 如果未加载，显示传入的值
                 value

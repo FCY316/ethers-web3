@@ -1,6 +1,6 @@
 import { BrowserProvider, JsonRpcSigner } from "ethers";
 import i18n from "i18next";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { create } from "zustand";
 
 import { evmChain } from "@/collocate";
