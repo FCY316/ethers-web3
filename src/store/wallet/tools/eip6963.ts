@@ -87,6 +87,13 @@ const announceProvider = (event: Event) => {
   const detail = (event as CustomEvent<unknown>).detail;
   if (!isProviderDetail(detail) || providers.has(detail.info.uuid)) return;
 
+  // TP 等钱包 WebView 可能针对同一钱包重复公告，且每次 UUID 不同。
+  // 按 rdns 去重，避免钱包选择列表出现多个同一钱包。
+  const hasSameRdns = Array.from(providers.values()).some(
+    ({ info }) => info.rdns === detail.info.rdns,
+  );
+  if (hasSameRdns) return;
+
   providers.set(detail.info.uuid, detail);
   notifyListeners();
 };

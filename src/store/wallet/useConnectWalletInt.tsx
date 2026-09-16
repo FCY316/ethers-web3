@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import {
     SELECTED_PROVIDER_STORAGE_KEY,
@@ -21,17 +21,22 @@ const useConnectWalletInt = (removeLocalToken?: Function) => {
         discoverWalletProviders,
         walletProviders,
     } = useConnectWalletEvmStore();
+    // 钱包发现只在挂载时发起；避免 provider 列表更新后又重复请求公告。
+    useEffect(() => {
+        discoverWalletProviders();
+    }, [discoverWalletProviders]);
+
+    // 同一钱包自动恢复失败后，不应在每次重复公告时再次尝试。
+    const attemptedProviderRdns = useRef<string | null>(null);
+
     useEffect(() => {
         const providerRdns = getLocal(SELECTED_PROVIDER_STORAGE_KEY);
         // 每次页面加载都会出现新的 uuid；rdns 是本地保存的钱包偏好匹配键。
         const providerDetail = walletProviders.find(
             ({ info }) => info.rdns === providerRdns
         );
-        if (
-            providerRdns &&
-            !addressEvm &&
-            providerDetail
-        ) {
+        if (providerRdns && !addressEvm && providerDetail && attemptedProviderRdns.current !== providerRdns) {
+            attemptedProviderRdns.current = providerRdns;
             // 恢复会话仅以 eth_accounts 检查授权；若链不匹配，连接逻辑会请求切换到 evmChain[0]。
             connectWalletEvmStore(
                 providerDetail.info.uuid,
@@ -41,12 +46,9 @@ const useConnectWalletInt = (removeLocalToken?: Function) => {
             );
         }
 
-        // 每次 effect 运行均请求公告，保证 provider 晚注入时 walletProviders 会刷新并触发恢复。
-        discoverWalletProviders();
     }, [
         addressEvm,
         connectWalletEvmStore,
-        discoverWalletProviders,
         removeLocalToken,
         walletProviders,
     ]);
